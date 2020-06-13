@@ -5,8 +5,8 @@ import { getShuffledDeckError, getShuffledDeckSuccess, getCardsSuccess, incremen
 import { GET_CARDS, GET_SHUFFLED_DECK } from './constants';
 
 function* sagaWatcher() {
-  yield takeLatest([GET_SHUFFLED_DECK], getShuffledDeckSaga);
   yield takeLatest([GET_CARDS], getCardsSaga);
+  yield takeLatest([GET_SHUFFLED_DECK], getShuffledDeckSaga);
 }
 
 function* getShuffledDeckSaga() {

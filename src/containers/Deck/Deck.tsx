@@ -1,4 +1,4 @@
-import React, { useEffect, memo } from 'react';
+import React, { useEffect, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Counter from 'components/Counter';
 import {
@@ -8,7 +8,7 @@ import {
 import { getShuffledDeck, getCards } from './actions';
 import { Card } from 'components/Card/Card';
 
-export const Deck = () => {
+export const Deck: FC = () => {
   const dispatch = useDispatch();
   const store = useSelector(rootStateSelector);
   const cardsCount = useSelector(cardsCounterSelector);
