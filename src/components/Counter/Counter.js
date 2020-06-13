@@ -1,14 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Counter = ({ count }) => {
+const Counter = ({ cards, scores }) => {
   return (
-    <div>Counter: {count}</div>
+    <>
+      <div>Cards left: {cards}</div>
+      <div>Correct answers: {scores}</div>
+    </>
   );
 };
 
 Counter.propTypes = {
-  count: PropTypes.number,
+  cards: PropTypes.number,
+  score: PropTypes.number,
 }
 
 export {

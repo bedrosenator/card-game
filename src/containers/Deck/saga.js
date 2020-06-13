@@ -1,7 +1,7 @@
 import { takeLatest, put } from 'redux-saga/effects';
 import axios from 'axios';
 import config from 'config';
-import { getShuffledDeckError, getShuffledDeckSuccess, getCards, getCardsSuccess, getCardsError } from './actions';
+import { getShuffledDeckError, getShuffledDeckSuccess, getCardsSuccess, incrementScore } from './actions';
 import { GET_CARDS, GET_SHUFFLED_DECK } from './constants';
 
 function* sagaWatcher() {
@@ -12,10 +12,15 @@ function* sagaWatcher() {
 function* getShuffledDeckSaga() {
   try {
     const deck = yield axios.get(`${config.api.url}/new/shuffle/?deck_count=1`);
-
     if (deck && deck.data) {
       yield put(getShuffledDeckSuccess(deck.data));
-      yield getCardsSaga(deck.data.deck_id);
+      yield getCardsSaga({
+        data: {
+          deckId: deck.data.deck_id,
+          guess: 0,
+          cardValue: deck.data,
+        },
+      });
     }
   } catch (e) {
     yield put(getShuffledDeckError({
@@ -25,10 +30,19 @@ function* getShuffledDeckSaga() {
   }
 }
 
-function* getCardsSaga(deckId) {
-  const id = deckId.data ? deckId.data : deckId;
-  const cards = yield axios.get(`${config.api.url}/${id}/draw/?count=1`);
+function* getCardsSaga({ data }) {
+  const cards = yield axios.get(`${config.api.url}/${data.deckId}/draw/?count=1`);
   yield put(getCardsSuccess(cards.data));
+  if (data.guess) {
+    const nextCardValue = config.cardsHash[cards.data.cards[0].value];
+    const prevCardValue = config.cardsHash[data.cardValue];
+    const isNextCardBigger = nextCardValue > prevCardValue && data.guess === 1;
+    const isNextCardSmaller = nextCardValue < prevCardValue && data.guess === -1 ;
+
+    if (isNextCardBigger || isNextCardSmaller) {
+      yield put(incrementScore())
+    }
+  }
 }
 
 export default sagaWatcher;
