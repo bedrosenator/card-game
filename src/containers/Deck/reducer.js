@@ -10,20 +10,15 @@ import {
 const initialState = {
   loading: false,
   cards: {
-    success: true,
-    deck_id: "jqgs224o6had",
-    cards: [{
-      code: "7S",
-      image: "https://deckofcardsapi.com/static/img/7S.png",
-      images: [],
-      remaining: 0
-    }],
+    success: false,
+    deck_id: '',
+    cards: [],
   },
   deck: {
-    success: true,
-    deck_id: "usuc0l6cw2pq",
-    remaining: 52,
-    shuffled: true,
+    success: false,
+    deck_id: '',
+    remaining: 0,
+    shuffled: false,
   },
   scores: 0,
   error: null,
@@ -63,7 +58,6 @@ function deckReducer(state = initialState, { type, data }) {
       return {
         ...state,
         loading: false,
-        error: data,
       };
     case INCREMENT_SCORE:
       return {
