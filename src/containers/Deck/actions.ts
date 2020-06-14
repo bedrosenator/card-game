@@ -17,7 +17,7 @@ import {
   IGuessCard,
   IIncrementScore
 } from 'types/actions';
-import { ICards, IDeck, IError } from 'types/deck';
+import {ICard, ICards, IDeck, IError} from 'types/deck';
 
 export const getShuffledDeck = (): IGetShuffledDeck => {
   return {
@@ -46,7 +46,7 @@ export const getCards = (data: IGuessCard ): IGetCards => {
   }
 };
 
-export const getCardsSuccess = (data: ICards): IGetCardsSuccess => {
+export const getCardsSuccess = (data: ICard[]): IGetCardsSuccess => {
   return {
     type: GET_CARDS_SUCCESS,
     data,

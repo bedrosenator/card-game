@@ -4,27 +4,24 @@ import {
   GET_CARDS_SUCCESS,
   GET_SHUFFLED_DECK,
   GET_SHUFFLED_DECK_ERROR,
-  GET_SHUFFLED_DECK_SUCCESS, INCREMENT_SCORE
+  GET_SHUFFLED_DECK_SUCCESS,
+  INCREMENT_SCORE
 } from './constants';
-import {ICards, IDeck} from 'types/deck';
+import {ICard, ICards, IDeck} from 'types/deck';
 import { IDeckActionTypes } from 'types/actions';
 
 type TDeckState = {
   loading: boolean,
-  cards: ICards,
+  cards: ICard[],
   deck: IDeck,
   scores: number,
+  remaining: number,
   error: TypeError | null
 }
 
 const initialState: TDeckState = {
   loading: false,
-  cards: {
-    success: false,
-    deck_id: '',
-    cards: [],
-    remaining: 0,
-  },
+  cards: [],
   deck: {
     success: false,
     deck_id: '',
@@ -32,6 +29,7 @@ const initialState: TDeckState = {
     shuffled: false,
   },
   scores: 0,
+  remaining: 0,
   error: null,
 };
 
@@ -47,7 +45,8 @@ function deckReducer(state = initialState, { type, data }: IDeckActionTypes) {
       return {
         ...state,
         loading: false,
-        deck: data
+        deck: data,
+        remaining: data.remaining
       };
     case GET_SHUFFLED_DECK_ERROR:
       return {
@@ -65,7 +64,8 @@ function deckReducer(state = initialState, { type, data }: IDeckActionTypes) {
       return {
         ...state,
         loading: false,
-        cards: data
+        cards: data.cards,
+        remaining: data.remaining
       };
     case GET_CARDS_ERROR:
       return {
