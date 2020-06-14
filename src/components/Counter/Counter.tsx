@@ -9,7 +9,7 @@ type TCounterProps = {
   deckId: string
 };
 
-const Counter: FC<TCounterProps> = ({ cards, scores, cardValue, deckId }) => {
+export const Counter: FC<TCounterProps> = ({ cards, scores, cardValue, deckId }) => {
   const dispatch = useDispatch();
   const handleSelectCards =  (guess: number, cardValue: string) => {
     dispatch(getCards({
@@ -28,7 +28,3 @@ const Counter: FC<TCounterProps> = ({ cards, scores, cardValue, deckId }) => {
     </>
   );
 };
-
-export {
-  Counter
-}
