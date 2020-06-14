@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Counter from 'components/Counter';
 import {
   rootStateSelector,
-  // cardsCounterSelector
 } from './selectors';
 import { getCards, getShuffledDeck } from './actions';
 import { ICard } from 'types/deck';
@@ -28,13 +27,15 @@ export const Deck: FC = () => {
   if (loading) {
     return <div>Loading...</div>
   }
-
+console.log("DECK")
   return (
     <div>
-      {cards && cards.map((card: ICard) => <Card key={card.code} {...card} />)}
-      <Counter cards={remaining} scores={scores} />
-      <button onClick={() => handleSelectCards(1, cards[0].value)}>Next card is bigger</button>
-      <button onClick={() => handleSelectCards(-1, cards[0].value)}>Next card is smaller</button>
+      {cards.length &&
+        <>
+          {cards.map((card: ICard) => <Card key={card.code} {...card} />)}
+          <Counter cardValue={cards[0].value} deckId={deck.deck_id} cards={remaining} scores={scores}/>
+        </>
+      }
     </div>
   );
 };
