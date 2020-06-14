@@ -1,19 +1,20 @@
-import React, { useEffect, FC } from 'react';
+import React, {useEffect, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Counter from 'components/Counter';
 import {
   rootStateSelector,
   cardsCounterSelector
 } from './selectors';
-import { getShuffledDeck, getCards } from './actions';
-import { Card } from 'components/Card/Card';
+import { getCards, getShuffledDeck } from './actions';
+import { ICard } from 'types/deck';
+import Card from 'components/Card';
 
 export const Deck: FC = () => {
   const dispatch = useDispatch();
   const store = useSelector(rootStateSelector);
-  const cardsCount = useSelector(cardsCounterSelector);
   const { deck, cards, loading, scores } = store;
-  const handleSelectCards = (guess, cardValue) => {
+  const cardsCount = useSelector(cardsCounterSelector);
+  const handleSelectCards =  (guess: number, cardValue: string) => {
     dispatch(getCards({
       deckId: deck.deck_id,
       cardValue,
@@ -25,13 +26,16 @@ export const Deck: FC = () => {
     dispatch(getShuffledDeck())
   }, [dispatch]);
 
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
   return (
     <div>
-      <Counter scores={scores} cards={cardsCount} />
-      {cards.cards.map(card => <Card key={card.code} {...card} />)}
+      {cards.cards.map((card: ICard) => <Card key={card.code} {...card} />)}
+      <Counter cards={cardsCount} scores={scores} />
       <button onClick={() => handleSelectCards(1, cards.cards[0].value)}>Next card is bigger</button>
       <button onClick={() => handleSelectCards(-1, cards.cards[0].value)}>Next card is smaller</button>
-      {loading && <div>Loading...</div>}
     </div>
   );
 };

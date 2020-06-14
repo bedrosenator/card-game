@@ -10,8 +10,8 @@ type TCardProps = {
 export const Card: FC<TCardProps> = ({ image, value, suit, code }) => {
   return (
     <div style={{height: '350px'}}>
+      <div>{value} {suit}</div>
       <img alt={value} src={image} />
-      <div>{value} {code} {suit}</div>
     </div>
   );
 }

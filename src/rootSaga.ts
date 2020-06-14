@@ -3,7 +3,7 @@ import deckSaga from 'containers/Deck/saga';
 
 export default function* rootSaga () {
   const sagas = [
-    deckSaga,
+      ...deckSaga,
   ];
 
   yield all(sagas.map(saga =>

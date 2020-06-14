@@ -6,13 +6,24 @@ import {
   GET_SHUFFLED_DECK_ERROR,
   GET_SHUFFLED_DECK_SUCCESS, INCREMENT_SCORE
 } from './constants';
+import {ICards, IDeck} from 'types/deck';
+import { IDeckActionTypes } from 'types/actions';
 
-const initialState = {
+type TDeckState = {
+  loading: boolean,
+  cards: ICards,
+  deck: IDeck,
+  scores: number,
+  error: TypeError | null
+}
+
+const initialState: TDeckState = {
   loading: false,
   cards: {
     success: false,
     deck_id: '',
     cards: [],
+    remaining: 0,
   },
   deck: {
     success: false,
@@ -24,12 +35,13 @@ const initialState = {
   error: null,
 };
 
-function deckReducer(state = initialState, { type, data }) {
+function deckReducer(state = initialState, { type, data }: IDeckActionTypes) {
   switch (type) {
     case GET_SHUFFLED_DECK:
       return {
         ...state,
         loading: true,
+        error: null,
       };
     case GET_SHUFFLED_DECK_SUCCESS:
       return {
@@ -47,6 +59,7 @@ function deckReducer(state = initialState, { type, data }) {
       return {
         ...state,
         loading: true,
+        error: null,
       };
     case GET_CARDS_SUCCESS:
       return {

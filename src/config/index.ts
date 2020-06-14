@@ -1,4 +1,4 @@
-export default {
+const config: any = {
   api: {
     url: 'https://deckofcardsapi.com/api/deck',
   },
@@ -18,3 +18,5 @@ export default {
     'ACE': 14,
   }
 }
+
+export default config;
