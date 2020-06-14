@@ -27,7 +27,7 @@ export const Deck: FC = () => {
   if (loading) {
     return <div>Loading...</div>
   }
-console.log("DECK")
+
   return (
     <div>
       {cards.length &&
